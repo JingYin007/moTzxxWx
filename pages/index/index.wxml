@@ -7,8 +7,10 @@
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
     </block>
   </view>
-  <view class="usermotto">
-     <!--<text class="user-motto">{{motto}}</text>-->
-    <text class="user-motto">你若盛开，清风自来</text>
+  <view class="tip-word-top">
+     <text class="word">{{motto}}</text>
+  </view>
+  <view class="tip-word">
+     <text class="word">少吃肉，多运动：元宵节快乐！</text>
   </view>
 </view>
