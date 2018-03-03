@@ -24,7 +24,7 @@
 .tip-word{
   font-family: 楷体;
   color: orangered;
-  font-size: 16pt;
+  font-size: 13pt;
   margin-top: 30px;
 }
 
