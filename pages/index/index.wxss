@@ -1,14 +1,16 @@
 /**index.wxss**/
-.userinfo {
+
+
+.nowinfo {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
+.nowinfo-icon {
+  width: 168rpx;
+  height: 168rpx;
+  margin: 0rpx 20rpx;
   border-radius: 50%;
 }
 
@@ -16,15 +18,11 @@
   color: #aaa;
 }
 
-.tip-word-top {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin-top: 100px;
-}
-
 .tip-word{
   font-family: 楷体;
   color: orangered;
   font-size: 13pt;
-  margin-top: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 

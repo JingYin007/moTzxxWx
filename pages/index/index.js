@@ -1,14 +1,45 @@
 //index.js
+var util_weather = require('../api/weather.js')
 //获取应用实例
 const app = getApp()
+const duration = 2000
 
 Page({
   data: {
     tip: 'Hello World',
     userInfo: {},
+    nowInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
+  btn_getWeatherData: function () {
+    var self = this
+    wx.request({
+      url: 'https://api.seniverse.com/v3/weather/now.json?key=fdw9qkun1btvenxt&location=beijing&language=zh-Hans&unit=c',
+      data: {
+        noncestr: Date.now()
+      },
+      success: function (result) {
+        wx.showToast({
+          title: '请求成功',
+          icon: 'success',
+          mask: true,
+          duration: duration
+        })
+        
+        self.setData({
+          nowInfo: result.data.results[0]
+        })
+        //console.log('request success', result)
+      },
+
+      fail: function ({ errMsg }) {
+        console.log('request fail', errMsg)
+      }
+    })
+  },
+  
+
   //事件处理函数
   bindViewTap: function() {
     wx.navigateTo({
@@ -52,3 +83,15 @@ Page({
     })
   }
 })
+
+
+
+
+
+
+
+
+
+
+
+
