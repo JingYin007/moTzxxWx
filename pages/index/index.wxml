@@ -1,24 +1,53 @@
 <!--index.wxml-->
 <view class="container">
+ <image class="refresh " bindtap='btn_getNowWeather' src="../../image/icon/refresh.png"  mode="scaleToFill" >刷新</image> 
   <view class="nowinfo">
+ 
     <image wx:if="{{!nowInfo.now}}"  bindtap="bindViewTap" class="nowinfo-icon" src="../../image/icon/catFoot.jpg" background-size="cover"></image>
     <block wx:else>
       <image bindtap="bindViewTap" class="nowinfo-icon" src="../../image/weather/{{nowInfo.now.code}}.png"
       background-size="cover"></image>
     </block>
   </view>
-  <view class="tip-word">
-     <text class="word">谁的青春不迷茫，其实我们都一样！</text>
-  </view>
 
    <view class="tip-word">
-     <text class="word">{{nowInfo.location.name}}</text>
-     -
-     <text class="word">{{nowInfo.now.text}}</text>
-     -
-     <text class="word">{{nowInfo.last_update}}</text>
+     <text class="word">{{nowInfo.location.name}}  {{nowInfo.now.text}}  {{nowInfo.now.temperature}}℃</text>
   </view>
-  <button bindtap="btn_getWeatherData">获取</button>
+
+<view class="tip-word">
+     <text class="word1">谁的青春不迷茫，其实我们都一样！</text>
+  </view>
+
+<text class='tip-weatherShow' bindtap='getAllWeather'>生活指数：</text>
+<view class='life'>
+    <view class='suggestion'>
+        <text class='word'>流感：{{lifeInfo.flu.brief}}</text>
+        <text class='word'>运动：{{lifeInfo.sport.brief}}</text>
+        <text class='word'>洗车：{{lifeInfo.car_washing.brief}}</text>
+        <text class='word'>紫外线：{{lifeInfo.uv.brief}}</text>
+    </view>
+</view>
+
+
+<text class='tip-weatherShow' bindtap='getAllWeather'>最近天气状况：</text>
+<view class='weatherInfo'>
+<view class='single-tip'>
+    <text class='date'>日期</text>
+    <text class='weatherIcon'>白天</text>
+    <text class='weatherIcon'>夜间</text>
+    <text class='temp'>温度</text>
+</view>
+<view class='single'  wx:for="{{weatherInfo.daily}}">
+    <text class='date'>{{item.date}}</text>
+    <image class='weatherIcon' src='../../image/weather/{{item.code_day}}.png'></image>
+    <image class='weatherIcon' src='../../image/weather/{{item.code_night}}.png'></image>
+    <text class='temp'>{{item.low}}~{{item.high}}℃</text>
+</view>
+
+</view>
+
+
+
 
 </view>
 

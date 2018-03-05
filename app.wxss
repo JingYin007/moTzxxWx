@@ -1,12 +1,9 @@
 /**app.wxss**/
 .container {
   height: 100%;
-  display: flex;
-  flex-direction: column;
-   background-image: url("http://img.blog.csdn.net/2018030511351635?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTQxNTc4Mg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70");
-  align-items: center;
+   background-image: url("http://img.blog.csdn.net/20180305194452356?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTQxNTc4Mg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70");
+  /*align-items: center;*/
   justify-content: space-between;
-  padding: 20rpx 0;
-  box-sizing: border-box;
+  padding: 20px 0 20px 0;
 } 
 

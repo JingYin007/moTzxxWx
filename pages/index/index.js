@@ -1,27 +1,72 @@
 //index.js
-var util_weather = require('../api/weather.js')
 //获取应用实例
 const app = getApp()
 const duration = 2000
+//初始化【北京】经纬度  location=39.93:116.40（格式是 纬度:经度，英文冒号分隔） 
+const location = '39.93:116.40'
 
 Page({
   data: {
     tip: 'Hello World',
-    userInfo: {},
+    weatherInfo: {},
+    lifeInfo:{},
     nowInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
-  btn_getWeatherData: function () {
+
+  onReady:function(){
+  //初始化加载数据
     var self = this
+    //初始化获取 当前的天气状况
     wx.request({
-      url: 'https://api.seniverse.com/v3/weather/now.json?key=fdw9qkun1btvenxt&location=beijing&language=zh-Hans&unit=c',
+      url: 'https://api.seniverse.com/v3/weather/now.json?key=fdw9qkun1btvenxt&location=' + location + '&language=zh-Hans&unit=c',
+      success: function (result) {
+        self.setData({
+          nowInfo: result.data.results[0]
+        })
+      },
+      fail: function ({ errMsg }) {
+        console.log('request fail', errMsg)
+      }
+    }),
+    //初始化获取今天的生活指数信息
+      wx.request({
+      url: 'https://api.seniverse.com/v3/life/suggestion.json?key=fdw9qkun1btvenxt&location=' + location + '&language=zh-Hans',
+        success: function (result) {
+          self.setData({
+            lifeInfo: result.data.results[0].suggestion
+          })
+        },
+        fail: function ({ errMsg }) {
+          console.log('request fail', errMsg)
+        }
+      }),
+      //初始化话获取最近三天的天气状况
+    wx.request({
+      url: 'https://api.seniverse.com/v3/weather/daily.json?key=fdw9qkun1btvenxt&location=' + location + '&language=zh-Hans&unit=c&start=0&days=5',
+      success: function (result) {
+        self.setData({
+          //weatherInfo: result.data.results[0]
+          weatherInfo: formatDate(result.data.results[0])
+        })
+      },
+    })
+  },
+
+
+  //获取天气状况
+  btn_getNowWeather: function () {
+    var self = this
+    //获取现在的天气状况
+    wx.request({
+      url: 'https://api.seniverse.com/v3/weather/now.json?key=fdw9qkun1btvenxt&location='+location+'&language=zh-Hans&unit=c',
       data: {
         noncestr: Date.now()
       },
       success: function (result) {
         wx.showToast({
-          title: '请求成功',
+          title: '刷新成功',
           icon: 'success',
           mask: true,
           duration: duration
@@ -36,9 +81,54 @@ Page({
       fail: function ({ errMsg }) {
         console.log('request fail', errMsg)
       }
+    }),
+    //在免费的天气接口下 ，获取最近三天的天气状况
+    wx.request({
+      url: 'https://api.seniverse.com/v3/weather/daily.json?key=fdw9qkun1btvenxt&location=' + location + '&language=zh-Hans&unit=c&start=0&days=5',
+      success: function (result) {
+        wx.showToast({
+          title: '刷新成功',
+          icon: 'success',
+          mask: true,
+          duration: duration
+        })
+
+        self.setData({
+          //weatherInfo: result.data.results[0]
+          weatherInfo: formatDate(result.data.results[0])
+        })
+      },
+
+      fail: function ({ errMsg }) {
+        console.log('request fail', errMsg)
+      }
     })
   },
-  
+
+//获取三天内的的所有天气状况
+  getAllWeather: function () {
+    var self = this
+    wx.request({
+      url: 'https://api.seniverse.com/v3/weather/daily.json?key=fdw9qkun1btvenxt&location=' + location + '&language=zh-Hans&unit=c&start=0&days=5',
+      success: function (result) {
+        wx.showToast({
+          title: '刷新成功',
+          icon: 'success',
+          mask: true,
+          duration: duration
+        })
+
+        self.setData({
+         //weatherInfo: result.data.results[0]
+          weatherInfo: formatDate(result.data.results[0])
+        })
+      },
+
+      fail: function ({ errMsg }) {
+        console.log('request fail', errMsg)
+      }
+    })
+  },
 
   //事件处理函数
   bindViewTap: function() {
@@ -88,8 +178,29 @@ Page({
 
 
 
+/**
+ * 将日期信息进行处理
+ */
+function formatDate(data){
+  for (var i = 0; i < data.daily.length; i++) 
+  {
+    var date1 = data.daily[i].date.slice(5);
+    var date2 = date1.replace('-','/');
+    data.daily[i].date = date2;
+  }
+return data;
+}
+
+//中文形式的每周日期 (此方法暂时没用过！)
+function formatWeekday(timestamp) {
+  var date = new Date(timestamp * 1000);
+  var weekday = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+  var index = date.getDay();
+
+  return weekday[index];
 
 
+}
 
 
 
