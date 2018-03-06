@@ -1,6 +1,6 @@
 <!--index.wxml-->
 <view class="container">
- <image class="refresh " bindtap='btn_getNowWeather' src="../../image/icon/refresh.png"  mode="scaleToFill" >刷新</image> 
+ <image class="refresh " bindtap='refreshPage' src="../../image/icon/refresh.png"  mode="scaleToFill" >刷新</image> 
   <view class="nowinfo">
  
     <image wx:if="{{!nowInfo.now}}"  bindtap="bindViewTap" class="nowinfo-icon" src="../../image/icon/catFoot.jpg" background-size="cover"></image>
@@ -29,7 +29,7 @@
 </view>
 
 
-<text class='tip-weatherShow' bindtap='getAllWeather'>最近天气状况：</text>
+<text class='tip-weatherShow'>最近天气状况：</text>
 <view class='weatherInfo'>
 <view class='single-tip'>
     <text class='date'>日期</text>

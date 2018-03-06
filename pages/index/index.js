@@ -1,11 +1,10 @@
 //index.js
 //获取应用实例
 var util_weather = require('../api/util.js')
-//var formatLocation = util_weather.formatLocation
+var formatLocation = util_weather.formatLocation
+
 const app = getApp()
 const duration = 2000
-//初始化【北京】经纬度  location=39.93:116.40（格式是 纬度:经度，英文冒号分隔） 
-const location = '39.93:116.40'
 
 Page({
   data: {
@@ -20,109 +19,72 @@ Page({
     
   //初始化加载数据
     var self = this
-    //初始化获取 当前的天气状况
-    wx.request({
-      url: 'https://api.seniverse.com/v3/weather/now.json?key=fdw9qkun1btvenxt&location=' + location + '&language=zh-Hans&unit=c',
-      success: function (result) {
+    //获取定位信息 经纬度
+    wx.getLocation({
+      success: function (res) {
+        //初始化【北京】经纬度  location=39.93:116.40（格式是 纬度:经度，英文冒号分隔） 
+        var newLocation = '39.93:116.40'; 
+        if(res){newLocation = res.latitude + ":" + res.longitude}
         self.setData({
-          nowInfo: result.data.results[0]
+          newLocation: newLocation
         })
-      },
-      fail: function ({ errMsg }) {
-        console.log('request fail', errMsg)
-      }
-    }),
-    //初始化获取今天的生活指数信息
-      wx.request({
-      url: 'https://api.seniverse.com/v3/life/suggestion.json?key=fdw9qkun1btvenxt&location=' + location + '&language=zh-Hans',
-        success: function (result) {
-          self.setData({
-            lifeInfo: result.data.results[0].suggestion
+      
+      //初始化获取 当前的天气状况
+        wx.request({
+          url: 'https://api.seniverse.com/v3/weather/now.json?key=fdw9qkun1btvenxt&location=' + newLocation+'&language=zh-Hans&unit=c',
+          success: function (result) {
+            self.setData({
+              nowInfo: result.data.results[0]
+            })
+          },
+          fail: function ({ errMsg }) {
+            console.log('request fail', errMsg)
+          }
+        }),
+          //初始化获取今天的生活指数信息
+          wx.request({
+          url: 'https://api.seniverse.com/v3/life/suggestion.json?key=fdw9qkun1btvenxt&location=' + newLocation + '&language=zh-Hans',
+            success: function (result) {
+              self.setData({
+                lifeInfo: result.data.results[0].suggestion
+              })
+            },
+            fail: function ({ errMsg }) {
+              console.log('request fail', errMsg)
+            }
+          }),
+          //初始化话获取最近三天的天气状况
+          wx.request({
+          url: 'https://api.seniverse.com/v3/weather/daily.json?key=fdw9qkun1btvenxt&location=' + newLocation + '&language=zh-Hans&unit=c&start=0&days=5',
+            success: function (result) {
+              self.setData({
+                //weatherInfo: result.data.results[0]
+                weatherInfo: formatDate(result.data.results[0])
+              })
+            },
           })
-        },
-        fail: function ({ errMsg }) {
-          console.log('request fail', errMsg)
-        }
-      }),
-      //初始化话获取最近三天的天气状况
-    wx.request({
-      url: 'https://api.seniverse.com/v3/weather/daily.json?key=fdw9qkun1btvenxt&location=' + location + '&language=zh-Hans&unit=c&start=0&days=5',
-      success: function (result) {
-        self.setData({
-          //weatherInfo: result.data.results[0]
-          weatherInfo: formatDate(result.data.results[0])
-        })
-      },
+
+      }
     })
   },
 
-
-  //获取天气状况
-  btn_getNowWeather: function () {
+  //页面刷新事件
+  refreshPage: function () {
     var self = this
-    //获取现在的天气状况
     wx.request({
-      url: 'https://api.seniverse.com/v3/weather/now.json?key=fdw9qkun1btvenxt&location='+location+'&language=zh-Hans&unit=c',
-      data: {
-        noncestr: Date.now()
-      },
+      url: 'https://api.seniverse.com/v3/weather/now.json?key=fdw9qkun1btvenxt&location=' + this.data.newLocation + '&language=zh-Hans&unit=c',
       success: function (result) {
         wx.showToast({
           title: '刷新成功',
           icon: 'success',
+          image: '',
+          duration: 2000,
           mask: true,
-          duration: duration
         })
-        
         self.setData({
           nowInfo: result.data.results[0]
         })
-        //console.log('request success', result)
       },
-      fail: function ({ errMsg }) {
-        console.log('request fail', errMsg)
-      }
-    }),
-    //在免费的天气接口下 ，获取最近三天的天气状况
-    wx.request({
-      url: 'https://api.seniverse.com/v3/weather/daily.json?key=fdw9qkun1btvenxt&location=' + location + '&language=zh-Hans&unit=c&start=0&days=5',
-      success: function (result) {
-        wx.showToast({
-          title: '刷新成功',
-          icon: 'success',
-          mask: true,
-          duration: duration
-        })
-        self.setData({
-          //weatherInfo: result.data.results[0]
-          weatherInfo: formatDate(result.data.results[0])
-        })
-      },
-      fail: function ({ errMsg }) {
-        console.log('request fail', errMsg)
-      }
-    })
-  },
-
-//获取三天内的的所有天气状况
-  getAllWeather: function () {
-    var self = this
-    wx.request({
-      url: 'https://api.seniverse.com/v3/weather/daily.json?key=fdw9qkun1btvenxt&location=' + location + '&language=zh-Hans&unit=c&start=0&days=5',
-      success: function (result) {
-        wx.showToast({
-          title: '刷新成功',
-          icon: 'success',
-          mask: true,
-          duration: duration
-        })
-
-        self.setData({
-         //weatherInfo: result.data.results[0]
-          weatherInfo: formatDate(result.data.results[0])
-        })
-      },
-
       fail: function ({ errMsg }) {
         console.log('request fail', errMsg)
       }
@@ -172,6 +134,7 @@ Page({
     })
   }
 })
+
 
 
 
