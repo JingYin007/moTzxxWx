@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/logs/logs",
     "pages/gofly/index",
-    "pages/gofly/get-location/get-location"
+    "pages/gofly/get-location/get-location",
+    "pages/gofly/request-payment/request-payment"
   ],
   "window":{
     "backgroundTextStyle":"light",

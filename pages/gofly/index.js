@@ -16,6 +16,11 @@
         url: '/pages/gofly/get-location/get-location'
       })
     },
+    wxPayment:function(){
+      wx.navigateTo({
+        url: '/pages/gofly/request-payment/request-payment'
+      })
+    },
     //查看日志
     see_logs: function () {
         wx.navigateTo({

@@ -2,36 +2,33 @@
 //获取应用实例
 var util_weather = require('../api/util.js')
 var formatLocation = util_weather.formatLocation
-
 const app = getApp()
-const duration = 2000
 
 Page({
   data: {
     weatherInfo: {},
-    newLocation:{},
-    lifeInfo:{},
+    newLocation: {},
+    lifeInfo: {},
     nowInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
-  onReady:function(){
-    
-  //初始化加载数据
+  onReady: function () {
+    //初始化加载数据
     var self = this
     //获取定位信息 经纬度
     wx.getLocation({
       success: function (res) {
         //初始化【北京】经纬度  location=39.93:116.40（格式是 纬度:经度，英文冒号分隔） 
-        var newLocation = '39.93:116.40'; 
-        if(res){newLocation = res.latitude + ":" + res.longitude}
+        var newLocation = '39.93:116.40';
+        if (res) { newLocation = res.latitude + ":" + res.longitude }
         self.setData({
           newLocation: newLocation
         })
-      
-      //初始化获取 当前的天气状况
+
+        //初始化获取 当前的天气状况
         wx.request({
-          url: 'https://api.seniverse.com/v3/weather/now.json?key=fdw9qkun1btvenxt&location=' + newLocation+'&language=zh-Hans&unit=c',
+          url: 'https://api.seniverse.com/v3/weather/now.json?key=fdw9qkun1btvenxt&location=' + newLocation + '&language=zh-Hans&unit=c',
           success: function (result) {
             self.setData({
               nowInfo: result.data.results[0]
@@ -43,7 +40,7 @@ Page({
         }),
           //初始化获取今天的生活指数信息
           wx.request({
-          url: 'https://api.seniverse.com/v3/life/suggestion.json?key=fdw9qkun1btvenxt&location=' + newLocation + '&language=zh-Hans',
+            url: 'https://api.seniverse.com/v3/life/suggestion.json?key=fdw9qkun1btvenxt&location=' + newLocation + '&language=zh-Hans',
             success: function (result) {
               self.setData({
                 lifeInfo: result.data.results[0].suggestion
@@ -55,7 +52,7 @@ Page({
           }),
           //初始化话获取最近三天的天气状况
           wx.request({
-          url: 'https://api.seniverse.com/v3/weather/daily.json?key=fdw9qkun1btvenxt&location=' + newLocation + '&language=zh-Hans&unit=c&start=0&days=5',
+            url: 'https://api.seniverse.com/v3/weather/daily.json?key=fdw9qkun1btvenxt&location=' + newLocation + '&language=zh-Hans&unit=c&start=0&days=5',
             success: function (result) {
               self.setData({
                 //weatherInfo: result.data.results[0]
@@ -63,7 +60,6 @@ Page({
               })
             },
           })
-
       }
     })
   },
@@ -92,7 +88,7 @@ Page({
   },
 
   //事件处理函数
-  bindViewTap: function() {
+  bindViewTap: function () {
     wx.navigateTo({
       url: '../logs/logs'
     })
@@ -103,7 +99,7 @@ Page({
         userInfo: app.globalData.userInfo,
         hasUserInfo: true
       })
-    } else if (this.data.canIUse){
+    } else if (this.data.canIUse) {
       // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
       // 所以此处加入 callback 以防止这种情况
       app.userInfoReadyCallback = res => {
@@ -125,7 +121,7 @@ Page({
       })
     }
   },
-  getUserInfo: function(e) {
+  getUserInfo: function (e) {
     console.log(e)
     app.globalData.userInfo = e.detail.userInfo
     this.setData({
@@ -143,14 +139,13 @@ Page({
 /**
  * 将日期信息进行处理
  */
-function formatDate(data){
-  for (var i = 0; i < data.daily.length; i++) 
-  {
+function formatDate(data) {
+  for (var i = 0; i < data.daily.length; i++) {
     var date1 = data.daily[i].date.slice(5);
-    var date2 = date1.replace('-','/');
+    var date2 = date1.replace('-', '/');
     data.daily[i].date = date2;
   }
-return data;
+  return data;
 }
 
 //中文形式的每周日期 (此方法暂时没用过！)

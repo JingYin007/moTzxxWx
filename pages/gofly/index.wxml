@@ -1,5 +1,6 @@
 
 <view class='gofly'>
 <button bindtap="getLocation">定位测试</button>
+<button bindtap="wxPayment">微信支付</button>
 <button open-type="contact" bindtap='see_logs'>查看日志</button>
 </view>
