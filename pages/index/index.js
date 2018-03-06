@@ -7,7 +7,6 @@ const location = '39.93:116.40'
 
 Page({
   data: {
-    tip: 'Hello World',
     weatherInfo: {},
     lifeInfo:{},
     nowInfo: {},
@@ -196,10 +195,7 @@ function formatWeekday(timestamp) {
   var date = new Date(timestamp * 1000);
   var weekday = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
   var index = date.getDay();
-
   return weekday[index];
-
-
 }
 
 

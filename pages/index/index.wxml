@@ -37,7 +37,7 @@
     <text class='weatherIcon'>夜间</text>
     <text class='temp'>温度</text>
 </view>
-<view class='single'  wx:for="{{weatherInfo.daily}}">
+<view class='single'  wx:for="{{weatherInfo.daily}}" wx:key="key">
     <text class='date'>{{item.date}}</text>
     <image class='weatherIcon' src='../../image/weather/{{item.code_day}}.png'></image>
     <image class='weatherIcon' src='../../image/weather/{{item.code_night}}.png'></image>
