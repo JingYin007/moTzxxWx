@@ -1,7 +1,9 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/gofly/index",
+    "pages/gofly/get-location/get-location"
   ],
   "window":{
     "backgroundTextStyle":"light",
@@ -21,10 +23,10 @@
       "text": "首页"
     },
     {
-      "pagePath": "pages/logs/logs",
+      "pagePath": "pages/gofly/index",
       "iconPath": "image/icon/icon_API.png",
       "selectedIconPath": "image/icon/icon_API_HL.png",
-      "text": "日志"
+      "text": "扩展"
     }]
   },
   "debug": true

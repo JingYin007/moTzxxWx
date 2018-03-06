@@ -1,0 +1,5 @@
+
+<view class='gofly'>
+<button bindtap="getLocation">定位测试</button>
+<button open-type="contact" bindtap='see_logs'>查看日志</button>
+</view>
