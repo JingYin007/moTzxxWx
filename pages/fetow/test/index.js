@@ -1,43 +1,31 @@
 {
   Page({
+  
     /**
      * 页面的初始数据
      */
     data: {
-      hasLocation: false,
+      'testInfo' :{'name':'Hello'}
     },
-    getLocation:function(){
-
-    },
-
-
-    getLocation:function(){
-      wx.navigateTo({
-        url: '/pages/gofly/get-location/get-location'
-      })
-    },
-    wxPayment:function(){
-      wx.navigateTo({
-        url: '/pages/gofly/request-payment/request-payment'
-      })
-    },
-    //查看日志
-    see_logs: function () {
-        wx.navigateTo({
-          url: '/pages/logs/logs'
-        })
-    },
-    //沸腾测试
-    fetowTest:function(){
-      wx.navigateTo({
-        url: '/pages/fetow/test/index'
-      })
-    },
+  
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-      
+      //初始化加载数据
+      var self = this
+      wx.request({
+        url: 'http://fetow.com/WxApi/test',
+        success: function (result) {
+          self.setData({
+            testInfo: result.data['data']
+          })
+          console.log(result.data)
+        },
+        fail: function ({ errMsg }) {
+          console.log('request fail', errMsg)
+        }
+      })
     },
   
     /**

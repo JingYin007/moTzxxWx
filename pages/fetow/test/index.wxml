@@ -1,0 +1,6 @@
+<view class="testInfo">
+     <text class="name">{{testInfo.name}}</text>
+      <text class="sex" wx:if="{{testInfo.sex == 1}}">男</text>
+      <text class="sex" wx:else>女</text>
+       <text class="message">{{testInfo.message}}</text>
+  </view>
