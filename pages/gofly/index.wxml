@@ -4,5 +4,5 @@
 <button bindtap="wxPayment">微信支付</button>
 <button open-type="contact" bindtap='see_logs'>查看日志</button>
 
-<button open-type="contact" bindtap='fetowTest'>沸腾测试</button>
+<button open-type="contact" bindtap='fetowTest'>数据测试</button>
 </view>

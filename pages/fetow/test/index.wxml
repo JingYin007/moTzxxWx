@@ -1,6 +1,7 @@
 <view class="testInfo">
-     <text class="name">{{testInfo.name}}</text>
-      <text class="sex" wx:if="{{testInfo.sex == 1}}">男</text>
+<image src='{{userInfo.avatarUrl}}'></image>
+     <text class="name">{{userInfo.nickName}}</text>
+      <text class="sex" wx:if="{{userInfo.gender == 1}}">男</text>
       <text class="sex" wx:else>女</text>
-       <text class="message">{{testInfo.message}}</text>
+       <text class="message">{{userInfo.country}}|{{userInfo.language}}</text>
   </view>
